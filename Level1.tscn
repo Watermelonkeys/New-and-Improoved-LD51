@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://light.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Giovanna.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://ASSETS/Background/Skyline1.png" type="Texture" id=6]
 [ext_resource path="res://My Platform.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ASSETS/Sunimation/Sun_0_5000ms.png" type="Texture" id=8]
+[ext_resource path="res://End_Button.tscn" type="PackedScene" id=9]
 
 [sub_resource type="GDScript" id=3]
 script/source = "extends Node2D
@@ -211,6 +212,9 @@ position = Vector2( 320, 34 )
 
 [node name="My Platform3" parent="." instance=ExtResource( 7 )]
 position = Vector2( 264, -3 )
+
+[node name="Ending" parent="." instance=ExtResource( 9 )]
+position = Vector2( 827, 237 )
 
 [connection signal="sun_anim_done" from="ParallaxBackground/ParallaxLayer2/Sun" to="." method="_on_sun_anim_done"]
 [connection signal="body_entered" from="DeathZone" to="." method="_on_DeathZone_body_entered"]
