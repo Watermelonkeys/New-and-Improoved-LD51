@@ -6,7 +6,7 @@
 [ext_resource path="res://ASSETS/Background/Layer 7.png" type="Texture" id=4]
 [ext_resource path="res://ASSETS/Background/Skyline2.png" type="Texture" id=5]
 [ext_resource path="res://ASSETS/Background/Skyline1.png" type="Texture" id=6]
-[ext_resource path="res://ASSETS/Background/Sun total.png" type="Texture" id=7]
+[ext_resource path="res://ASSETS/Sunimation/Sun_0_5000ms.png" type="Texture" id=8]
 
 [sub_resource type="GDScript" id=3]
 script/source = "extends Node2D
@@ -20,13 +20,65 @@ func _on_DeathZone_entered(body):
 	get_tree().change_scene(\"res://Dead.tscn\")
 "
 
-[sub_resource type="SpriteFrames" id=2]
-animations = [ {
-"frames": [ ExtResource( 7 ) ],
-"loop": true,
-"name": "lag",
-"speed": 5.0
-} ]
+[sub_resource type="GDScript" id=6]
+script/source = "extends Sprite
+
+export(String, DIR) var sun_frames_path = \"res://ASSETS/Sunimation\"
+
+signal sun_anim_done
+
+var frames := []
+var timer := Timer.new()
+
+func _ready():
+	add_child(timer)
+	timer.one_shot = true
+	
+	var frames_names = list_files_in_directory(sun_frames_path, [\"png\"])
+	frames.resize(len(frames_names))
+		
+	for f in frames_names:
+		var tokens = f.trim_prefix(\"Sun_\").trim_suffix(\"ms.png\").split(\"_\")
+		
+#		print(f, \" \", tmp, \" \", tokens)
+		
+		var idx = int(tokens[0])
+		frames[idx] = {
+			file = \"%s/%s\" % [sun_frames_path, f],
+			frame_len = float(tokens[1])/1000.0
+		}
+	
+#	print(frames)
+	animate()
+
+func animate():
+	for fr in frames:
+		texture = load(fr.file)
+		timer.start(fr.frame_len)
+		
+		yield(timer, \"timeout\")
+	
+	texture = null
+	emit_signal(\"sun_anim_done\")
+
+func list_files_in_directory(path, ext_filter := [], allow_hidden := false):
+	var files = []
+	var dir = Directory.new()
+	dir.open(path)
+	dir.list_dir_begin()
+
+	var file = dir.get_next()
+	while file != \"\":
+		var is_hidden = file.begins_with(\".\")
+		var ext_ok = (len(ext_filter) == 0 or file.get_extension() in ext_filter)
+		if (not is_hidden or allow_hidden) and ext_ok:
+			files.append(file)
+		file = dir.get_next()
+
+	dir.list_dir_end()
+
+	return files
+"
 
 [sub_resource type="GDScript" id=5]
 script/source = "extends Area2D
@@ -50,10 +102,10 @@ motion_scale = Vector2( 0, 0 )
 [node name="Skybox" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
 texture = ExtResource( 4 )
 
-[node name="Sun" type="AnimatedSprite" parent="ParallaxBackground/ParallaxLayer2"]
-position = Vector2( 0, 40 )
-frames = SubResource( 2 )
-animation = "lag"
+[node name="Sun" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2( 0, 88 )
+texture = ExtResource( 8 )
+script = SubResource( 6 )
 
 [node name="Purple Sky" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2( 0, -90 )
@@ -98,5 +150,3 @@ shape = SubResource( 4 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 73, 39 )
-max_jump_height = 64
-max_acceleration = 1500
