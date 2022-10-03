@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/suoneria_giorno_notte.mp3-6c2370cf32bea1e6f121bdf8b0d6f8db.mp3str"
+
+[deps]
+
+source_file="res://ASSETS/sounds/suoneria_giorno_notte.mp3"
+dest_files=[ "res://.import/suoneria_giorno_notte.mp3-6c2370cf32bea1e6f121bdf8b0d6f8db.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
