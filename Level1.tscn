@@ -11,12 +11,23 @@
 [sub_resource type="GDScript" id=3]
 script/source = "extends Node2D
 
+onready var layer_1 = $ParallaxBackground/ParallaxLayer2
+onready var layer_2 = $\"ParallaxBackground/Purple Sky\"
+onready var layer_3 = $ParallaxBackground/ParallaxLayer
+
 func _input(event):
 	if Input.is_action_just_pressed(\"quit\"):
 		get_tree().quit()
 
+func _on_sun_anim_done():
+	var tween = create_tween()
+	tween.set_parallel(false)
+	tween.tween_property(layer_1, \"modulate\", Color.black, 0.3)
+	tween.tween_property(layer_2, \"modulate\", Color.black, 0.3).set_delay(0.1)
+	tween.tween_property(layer_3, \"modulate\", Color.black, 0.3).set_delay(0.1)
 
-func _on_DeathZone_entered(body):
+
+func _on_DeathZone_body_entered(body):
 	get_tree().change_scene(\"res://Dead.tscn\")
 "
 
@@ -85,11 +96,11 @@ script/source = "extends Area2D
 
 func _process(delta):
 	var p = owner.get_meta(\"player\")
-	position.x = p.position.x
+	global_position.x = p.global_position.x
 "
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 212, 31 )
+extents = Vector2( 2255, 43 )
 
 [node name="Level1" type="Node2D"]
 script = SubResource( 3 )
@@ -103,7 +114,7 @@ motion_scale = Vector2( 0, 0 )
 texture = ExtResource( 4 )
 
 [node name="Sun" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
-position = Vector2( 0, 88 )
+position = Vector2( 0, 62 )
 texture = ExtResource( 8 )
 script = SubResource( 6 )
 
@@ -146,7 +157,11 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
+position = Vector2( 1771, 12 )
 shape = SubResource( 4 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 73, 39 )
+
+[connection signal="sun_anim_done" from="ParallaxBackground/ParallaxLayer2/Sun" to="." method="_on_sun_anim_done"]
+[connection signal="body_entered" from="DeathZone" to="." method="_on_DeathZone_body_entered"]
