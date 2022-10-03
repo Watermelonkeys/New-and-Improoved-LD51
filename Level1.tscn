@@ -183,6 +183,9 @@ __meta__ = {
 "_edit_horizontal_guides_": [  ]
 }
 
+[node name="light" parent="light" instance=ExtResource( 1 )]
+position = Vector2( 328, -100 )
+
 [node name="TileMap" type="TileMap" parent="."]
 material = SubResource( 7 )
 tile_set = ExtResource( 3 )

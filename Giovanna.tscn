@@ -76,10 +76,6 @@ volume_db = -28.614
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2( 0, -48 )
 current = true
-limit_left = -129
-limit_top = -217
-limit_right = 1123
-limit_bottom = 669
 limit_smoothed = true
 smoothing_enabled = true
 editor_draw_limits = true
