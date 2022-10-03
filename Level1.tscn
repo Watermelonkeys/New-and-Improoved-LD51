@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://light.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Giovanna.tscn" type="PackedScene" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://My Platform.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ASSETS/Sunimation/Sun_0_5000ms.png" type="Texture" id=8]
 [ext_resource path="res://End_Button.tscn" type="PackedScene" id=9]
+[ext_resource path="res://enemies/Enemy.tscn" type="PackedScene" id=10]
+[ext_resource path="res://ASSETS/sounds/suoneria_giorno.wav" type="AudioStream" id=11]
 
 [sub_resource type="GDScript" id=3]
 script/source = "extends Node2D
@@ -249,6 +251,13 @@ position = Vector2( 2085, -76 )
 
 [node name="light4" parent="." instance=ExtResource( 1 )]
 position = Vector2( 3012, 237 )
+
+[node name="Enemy" parent="." instance=ExtResource( 10 )]
+position = Vector2( 631, 5 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+autoplay = true
 
 [connection signal="sun_anim_done" from="ParallaxBackground/ParallaxLayer2/Sun" to="." method="_on_sun_anim_done"]
 [connection signal="body_entered" from="DeathZone" to="." method="_on_DeathZone_body_entered"]
