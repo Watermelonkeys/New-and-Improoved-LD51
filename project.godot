@@ -17,17 +17,11 @@ _global_script_classes=[ {
 "base": "KinematicBody2D",
 "class": "Giovanna",
 "language": "GDScript",
-"path": "res://Giovanna.gd"
-}, {
-"base": "KinematicBody2D",
-"class": "PlatformerController2D",
-"language": "GDScript",
-"path": "res://platformer_controller/platformer_controller.gd"
+"path": "res://platformer_controller/giovanna.gd"
 } ]
 _global_script_class_icons={
 "Enemy": "",
-"Giovanna": "",
-"PlatformerController2D": ""
+"Giovanna": ""
 }
 
 [application]

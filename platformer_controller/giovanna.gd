@@ -1,6 +1,9 @@
 extends KinematicBody2D
 
-class_name PlatformerController2D
+signal level_day
+signal level_night
+
+class_name Giovanna
 
 # Set these to the name of your action (in the Input Map)
 export var input_left : String = "left"
@@ -71,6 +74,13 @@ func _init():
 
 
 func _ready():
+	owner.set_meta("player", self)
+	
+	if owner.has_signal("day"):
+		owner.connect("day", self, "_on_day")
+	if owner.has_signal("night"):
+		owner.connect("night", self, "_on_night")
+	
 	add_child(coyote_timer)
 	coyote_timer.wait_time = coyote_time
 	coyote_timer.one_shot = true
@@ -85,6 +95,11 @@ func _ready():
 	
 	owner.set_meta("player", self)
 
+func _on_day():
+	emit_signal("level_day")
+
+func _on_night():
+	emit_signal("level_night")
 
 func _physics_process(delta):
 	acc.x = 0

@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://light.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Giovanna.tscn" type="PackedScene" id=2]
 [ext_resource path="res://brick_tileset.tres" type="TileSet" id=3]
 [ext_resource path="res://ASSETS/Background/Layer 7.png" type="Texture" id=4]
 [ext_resource path="res://ASSETS/Background/Skyline2.png" type="Texture" id=5]
@@ -11,9 +11,16 @@
 [sub_resource type="GDScript" id=3]
 script/source = "extends Node2D
 
+signal day
+signal night
+
 onready var layer_1 = $ParallaxBackground/ParallaxLayer2
 onready var layer_2 = $\"ParallaxBackground/Purple Sky\"
 onready var layer_3 = $ParallaxBackground/ParallaxLayer
+onready var sun_sprite = $ParallaxBackground/ParallaxLayer2/Sun
+
+func _ready():
+	emit_signal(\"day\")
 
 func _input(event):
 	if Input.is_action_just_pressed(\"quit\"):
@@ -25,7 +32,26 @@ func _on_sun_anim_done():
 	tween.tween_property(layer_1, \"modulate\", Color.black, 0.3)
 	tween.tween_property(layer_2, \"modulate\", Color.black, 0.3).set_delay(0.1)
 	tween.tween_property(layer_3, \"modulate\", Color.black, 0.3).set_delay(0.1)
-
+	
+	yield(tween, \"finished\")
+	
+	emit_signal(\"night\")
+	
+	yield(get_tree().create_timer(10.0), \"timeout\")
+	
+	fade_back_in()
+	
+func fade_back_in():
+	sun_sprite.animate()
+	var tween = create_tween()
+	tween.set_parallel()
+	tween.tween_property(layer_3, \"modulate\", Color.white, 0.3)
+	tween.tween_property(layer_2, \"modulate\", Color.white, 0.3).set_delay(0.1)
+	tween.tween_property(layer_1, \"modulate\", Color.white, 0.3).set_delay(0.1)
+	
+	yield(tween, \"finished\")
+	
+	emit_signal(\"day\")
 
 func _on_DeathZone_body_entered(body):
 	get_tree().change_scene(\"res://Dead.tscn\")
