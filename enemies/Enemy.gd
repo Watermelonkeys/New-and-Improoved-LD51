@@ -27,7 +27,8 @@ var velocity := Vector2.ZERO
 var dir := Vector2.RIGHT
 var charge_target := Vector2.ZERO
 var charge_collision : KinematicCollision2D = null
-var charge_done := false
+var charge_blocked := false
+var charge_dist_left = -1.0
 var spawn_done := false
 
 func _ready():
@@ -85,9 +86,16 @@ func check_state():
 			if aggro_timer.time_left <= 0.0:
 				return STATES.CHARGE
 		STATES.CHARGE:
-			charge_done = charge_collision and charge_collision.collider == player
-			if charge_done:
+			var reached_player = (charge_collision and charge_collision.collider == player)
+			var close_enough = charge_dist_left <= pow(5.0, 2)
+			
+			if reached_player:
 				return STATES.ATTACK
+				
+			if close_enough or charge_blocked:
+				# we got to the targeted position, but 
+				# found no Giovanna there...
+				return STATES.ROAM
 		STATES.ATTACK:
 			return state
 			if dist_to_player() > 20.0:
@@ -113,7 +121,7 @@ func init_state():
 			aggro_timer.start()
 			charge_target = player.position
 		STATES.CHARGE:
-			charge_done = false
+			charge_collision = null
 			anim_sprite.offset *= 0.0
 		STATES.ATTACK:
 			## TEMP
@@ -152,17 +160,21 @@ func run_state(delta):
 			var r = 2.0
 			anim_sprite.offset = Vector2(rand_range(-r, r), rand_range(-r, r))
 		STATES.CHARGE:
-			var target_dist = position.distance_squared_to(charge_target)
+			charge_dist_left = position.distance_squared_to(charge_target)
 			var target_dir = position.direction_to(charge_target)
 			var speed = roam_max_speed * attack_speed_mul
-			var fac = target_dist/pow(attack_dist, 2)
+			var fac = charge_dist_left/pow(attack_dist, 2)
 			
 			velocity = velocity.linear_interpolate(target_dir * speed, fac)
 			
-			move_and_slide(velocity)
-			
+			var output_vel = move_and_slide(velocity)
+				
 			if get_slide_count() > 0:
 				charge_collision = get_slide_collision(0)
+				
+			if output_vel.length() == 0.0:
+				charge_blocked = true
+			
 		STATES.ATTACK:
 			pass
 
