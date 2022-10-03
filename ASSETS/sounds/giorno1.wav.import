@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/giorno1.wav-af2d65e89a0aca6e7fe0c4bed3de1c9c.sample"
+
+[deps]
+
+source_file="res://ASSETS/sounds/giorno1.wav"
+dest_files=[ "res://.import/giorno1.wav-af2d65e89a0aca6e7fe0c4bed3de1c9c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

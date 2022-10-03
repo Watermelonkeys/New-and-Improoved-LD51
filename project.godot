@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Giovanna",
 "language": "GDScript",
 "path": "res://Giovanna.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "PlatformerController2D",
+"language": "GDScript",
+"path": "res://platformer_controller/platformer_controller.gd"
 } ]
 _global_script_class_icons={
 "Enemy": "",
-"Giovanna": ""
+"Giovanna": "",
+"PlatformerController2D": ""
 }
 
 [application]
@@ -34,7 +40,6 @@ config/icon="res://icon.png"
 
 window/size/width=480
 window/size/height=270
-window/size/resizable=false
 window/size/test_width=960
 window/size/test_height=540
 window/stretch/mode="viewport"
