@@ -20,6 +20,8 @@ var is_night := false
 var in_light := false
 
 func _ready():
+	is_night = false
+	in_light = false
 	print(\"In light: %s\" % in_light)
 	
 func _process(delta):
@@ -28,6 +30,7 @@ func _process(delta):
 			ded_timer.start(0.4)
 
 func _on_LightCheck_entered(area):
+	print(area.name)
 	in_light = true
 #	print(\"In light: %s\" % in_light)
 
@@ -84,7 +87,8 @@ __meta__ = {
 }
 
 [node name="LightCheck" type="Area2D" parent="PlayerStatus"]
-collision_mask = 2
+collision_layer = 8
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerStatus/LightCheck"]
 shape = SubResource( 4 )
