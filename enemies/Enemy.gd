@@ -90,6 +90,7 @@ func check_state():
 			var close_enough = charge_dist_left <= pow(5.0, 2)
 			
 			if reached_player:
+				get_tree().change_scene("res://Dead.tscn")
 				return STATES.ATTACK
 				
 			if close_enough or charge_blocked:
