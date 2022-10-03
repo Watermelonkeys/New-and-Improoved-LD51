@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://ASSETS/Platforms/Plafformina3.png" type="Texture" id=1]
 [ext_resource path="res://ASSETS/Platforms/Plafformina1.png" type="Texture" id=2]
 [ext_resource path="res://ASSETS/Platforms/Plafformina2.png" type="Texture" id=3]
+
+[sub_resource type="CanvasItemMaterial" id=7]
+light_mode = 1
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -21,6 +24,7 @@ __meta__ = {
 }
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 7 )
 frames = SubResource( 1 )
 playing = true
 

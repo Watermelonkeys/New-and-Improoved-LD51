@@ -52,9 +52,8 @@ __meta__ = {
 }
 
 [node name="Light2D" type="Light2D" parent="."]
-scale = Vector2( 5, 5 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
-energy = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 3 )

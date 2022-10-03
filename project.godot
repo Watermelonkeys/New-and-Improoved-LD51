@@ -101,6 +101,7 @@ restart_game={
 [layer_names]
 
 2d_physics/layer_4="Lights"
+2d_physics/layer_5="Endgame"
 
 [physics]
 

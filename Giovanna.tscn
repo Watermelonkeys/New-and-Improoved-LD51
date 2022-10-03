@@ -49,6 +49,10 @@ func _on_level_day():
 
 func _on_level_night():
 	is_night = true
+
+
+func _on_EndgameCheck_entered(area):
+	get_tree().change_scene(\"res://Win.tscn\")
 "
 
 [sub_resource type="RectangleShape2D" id=16]
@@ -95,6 +99,13 @@ shape = SubResource( 4 )
 
 [node name="DedTimer" type="Timer" parent="PlayerStatus"]
 
+[node name="EndgameCheck" type="Area2D" parent="PlayerStatus"]
+collision_layer = 16
+collision_mask = 16
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerStatus/EndgameCheck"]
+shape = SubResource( 4 )
+
 [node name="WallJump_Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallJump_Area2D"]
@@ -105,3 +116,4 @@ shape = SubResource( 16 )
 [connection signal="area_entered" from="PlayerStatus/LightCheck" to="PlayerStatus" method="_on_LightCheck_entered"]
 [connection signal="area_exited" from="PlayerStatus/LightCheck" to="PlayerStatus" method="_on_LightCheck_exited"]
 [connection signal="timeout" from="PlayerStatus/DedTimer" to="PlayerStatus" method="_on_DedTimer_timeout"]
+[connection signal="area_entered" from="PlayerStatus/EndgameCheck" to="PlayerStatus" method="_on_EndgameCheck_entered"]

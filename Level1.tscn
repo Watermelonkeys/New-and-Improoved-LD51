@@ -25,7 +25,7 @@ onready var sun_sprite = $ParallaxBackground/ParallaxLayer2/Sun
 
 func _ready():
 	$TileMap.material = tiles_mat
-	tiles_mat.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
+	tiles_mat.light_mode = CanvasItemMaterial.LIGHT_MODE_NORMAL
 	
 	emit_signal(\"day\")
 
@@ -52,7 +52,7 @@ func _on_sun_anim_done():
 func fade_back_in():
 	sun_sprite.animate()
 	
-	tiles_mat.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
+	tiles_mat.light_mode = CanvasItemMaterial.LIGHT_MODE_NORMAL
 	emit_signal(\"day\")
 	
 	var tween = create_tween()
@@ -68,7 +68,6 @@ func _on_DeathZone_body_entered(body):
 "
 
 [sub_resource type="CanvasItemMaterial" id=7]
-light_mode = 1
 
 [sub_resource type="GDScript" id=6]
 script/source = "extends Sprite
@@ -185,6 +184,7 @@ __meta__ = {
 }
 
 [node name="TileMap" type="TileMap" parent="."]
+material = SubResource( 7 )
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 16, 16 )
 format = 1
@@ -215,6 +215,7 @@ position = Vector2( 264, -3 )
 
 [node name="Ending" parent="." instance=ExtResource( 9 )]
 position = Vector2( 827, 237 )
+z_index = -1
 
 [connection signal="sun_anim_done" from="ParallaxBackground/ParallaxLayer2/Sun" to="." method="_on_sun_anim_done"]
 [connection signal="body_entered" from="DeathZone" to="." method="_on_DeathZone_body_entered"]
